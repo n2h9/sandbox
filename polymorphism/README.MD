@@ -11,3 +11,10 @@ circle.c ->
  main.c ->
  - creates an array of figures
  - iteares over array, prints description, calculated square and perimeter
+
+ # Build
+
+
+```sh
+gcc main.c -Wall -Og -O1 -fsanitize=address -lm
+```
