@@ -1,0 +1,2 @@
+add_executable(networking_playground_server main.cpp)
+target_link_libraries(networking_playground_server PRIVATE networking_tools cxx_setup)
