@@ -1,0 +1,2 @@
+add_library(networking_tools networking_tools.cpp)
+target_link_libraries(networking_tools PUBLIC cxx_setup)

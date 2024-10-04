@@ -1,0 +1,3 @@
+add_executable(hello_world_playground main.cpp)
+target_link_libraries(hello_world_playground PRIVATE tools cxx_setup)
+
