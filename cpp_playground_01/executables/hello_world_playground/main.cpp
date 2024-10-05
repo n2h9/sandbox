@@ -6,9 +6,9 @@
 #include <queue>
 #include <thread>
 
+#include "our_project/networking_tools/networking_tools.hpp"
 #include "push_pop_queue_with_async.cpp"
 #include "push_pop_queue_with_jthread.cpp"
-#include "push_pop_queue_with_latch.cpp"
 
 int main() {
   {
@@ -98,7 +98,18 @@ int main() {
     cout << "----- -----" << endl;
   }
 
-  { push_pop_queue_with_latch(); }
+  {
+    using namespace std;
+    cout << "----- -----" << endl;
+    cout << "start of block push_pop_queue_with_latch" << endl;
+
+    auto q_pop_count =
+        our_project::networking_tools::push_pop_queue_with_latch(5);
+
+    cout << "number of q pop = " << q_pop_count << endl;
+    cout << "end of block" << endl;
+    cout << "----- -----" << endl;
+  }
 
   return 0;
 }

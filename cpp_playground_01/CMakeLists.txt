@@ -19,5 +19,24 @@ target_include_directories(cxx_setup INTERFACE ${PROJECT_SOURCE_DIR})
 message(STATUS "PROJECT_SOURCE_DIR: ${PROJECT_SOURCE_DIR}")
 
 
+include(FetchContent)
+
+# google tests
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/releases/download/v1.15.2/googletest-1.15.2.tar.gz
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+# end of googletests
+
+
+FetchContent_MakeAvailable(
+    googletest
+)
+
+include(CTest)
+
+
 add_subdirectory(${PROJECT_NAME})
 add_subdirectory(executables)

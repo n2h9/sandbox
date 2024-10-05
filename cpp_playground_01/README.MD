@@ -13,3 +13,10 @@ https://google.github.io/googletest/quickstart-cmake.html
 To debug need to build debug version of application.
 
 check https://stackoverflow.com/questions/49583381/how-to-debug-a-cmake-make-project-in-vscode 
+
+```sh
+mkdir Debug
+cd Debug
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+cmake --build .
+```

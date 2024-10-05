@@ -6,11 +6,11 @@
 #include <string>
 #include <thread>
 
-void push_pop_queue_with_latch() {
-  using namespace std;
-  cout << "----- -----" << endl;
-  cout << "start of block push_pop_queue_with_latch" << endl;
+namespace our_project {
+namespace networking_tools {
 
+int push_pop_queue_with_latch(const int&& number_of_producers) {
+  using namespace std;
   auto q = std::queue<int>{};
   auto q_mtx = mutex{};
 
@@ -48,8 +48,6 @@ void push_pop_queue_with_latch() {
     }
   };
 
-  const int number_of_producers = 5;
-
   auto lat = latch{number_of_producers};
   auto thread_sack = map<string, thread*>{};
 
@@ -81,7 +79,8 @@ void push_pop_queue_with_latch() {
   pop_thread.join();
   cout << "pop thread is joined " << endl;
 
-  cout << "number of q pop = " << q_pop_count << endl;
-  cout << "end of block" << endl;
-  cout << "----- -----" << endl;
+  return q_pop_count;
 }
+
+}  // namespace networking_tools
+}  // namespace our_project
