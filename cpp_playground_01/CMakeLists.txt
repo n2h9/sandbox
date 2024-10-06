@@ -18,7 +18,6 @@ target_compile_features(cxx_setup INTERFACE cxx_std_20)
 target_include_directories(cxx_setup INTERFACE ${PROJECT_SOURCE_DIR})
 message(STATUS "PROJECT_SOURCE_DIR: ${PROJECT_SOURCE_DIR}")
 
-
 include(FetchContent)
 
 # google tests
@@ -28,14 +27,28 @@ FetchContent_Declare(
 )
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+
 # end of googletests
+
+# asio
+FetchContent_Declare(
+    asio
+    GIT_REPOSITORY https://github.com/chriskohlhoff/asio 
+    GIT_TAG asio-1-30-2
+)
+# -- end of asio
 
 
 FetchContent_MakeAvailable(
     googletest
+    asio
 )
 
 include(CTest)
+
+# asio support
+target_include_directories(cxx_setup INTERFACE ${asio_SOURCE_DIR}/asio/include)
+# // asio support
 
 
 add_subdirectory(${PROJECT_NAME})
