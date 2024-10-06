@@ -1,15 +1,15 @@
 if (BUILD_TESTING)
     message(STATUS "BUILD_TESTING is on")
     add_executable(
-        push_pop_queue_with_latch_test
-        push_pop_queue_with_latch.cpp
-        push_pop_queue_with_latch_test.cpp
+        networking_tools_test
+        networking_tools.cpp
+        networking_tools_test.cpp
     )
 
-    target_link_libraries(push_pop_queue_with_latch_test PRIVATE GTest::gtest_main cxx_setup)
+    target_link_libraries(networking_tools_test PRIVATE GTest::gtest_main cxx_setup)
 
     include(GoogleTest)
-    gtest_discover_tests(push_pop_queue_with_latch_test)
+    gtest_discover_tests(networking_tools_test)
 endif()
 
 add_library(

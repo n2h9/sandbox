@@ -3,11 +3,13 @@
 #include <iostream>
 #include <queue>
 #include <thread>
+#include <vector>
 
-void push_pop_queue_with_async() {
+namespace our_project {
+namespace networking_tools {
+
+int push_pop_queue_with_async(const int&& number_of_producers) {
   using namespace std;
-  cout << "----- -----" << endl;
-  cout << "start of block push_pop_queue_with_async" << endl;
 
   auto q = std::queue<int>{};
   auto q_mtx = mutex{};
@@ -40,13 +42,15 @@ void push_pop_queue_with_async() {
     }
   };
 
-  future<void> future_pool[] = {
-      async(q_push_lambda, "aaa", 64),  async(q_push_lambda, "bbb", 128),
-      async(q_push_lambda, "ccc", 4),   async(q_push_lambda, "xxx", 512),
-      async(q_push_lambda, "zzz", 256),
-  };
+  auto future_pool = vector<future<void>>{};
+  auto num_base = 64;
+  for (auto i = 0; i < number_of_producers; i++) {
+    auto name = "producer_thread " + to_string(i);
+    auto val = num_base * (i + 1);
+    future_pool.push_back(async(q_push_lambda, name, val));
+  }
 
-  for (auto& one_future : future_pool) {
+  for (auto&& one_future : future_pool) {
     one_future.get();  // no result but block till the end of exceution
 
     cout << "future is returned" << endl;
@@ -55,7 +59,8 @@ void push_pop_queue_with_async() {
   auto q_pop_future = async(q_pop_lambda);
   q_pop_future.get();  // no result but block till the end of exceution
 
-  cout << "number of q pop = " << q_pop_count << endl;
-  cout << "end of block" << endl;
-  cout << "----- -----" << endl;
+  return q_pop_count;
 }
+
+}  // namespace networking_tools
+}  // namespace our_project

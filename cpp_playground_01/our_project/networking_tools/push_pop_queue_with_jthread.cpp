@@ -3,11 +3,13 @@
 #include <iostream>
 #include <queue>
 #include <thread>
+#include <vector>
 
-void push_pop_queue_with_jthread() {
+namespace our_project {
+namespace networking_tools {
+
+int push_pop_queue_with_jthread(const int&& number_of_producers) {
   using namespace std;
-  cout << "----- -----" << endl;
-  cout << "start of block push_pop_queue_with_jthread" << endl;
 
   auto q = std::queue<int>{};
   auto q_mtx = mutex{};
@@ -46,35 +48,25 @@ void push_pop_queue_with_jthread() {
 
   jthread pop_thread{q_pop_lambda};
 
-  thread thread_pool[] = {
-      thread{q_push_lambda, "aaa", 64},
-      thread{q_push_lambda, "bbb", 128},
-      thread{q_push_lambda, "ccc", 4},
-  };
-
-  // jthread t1{q_push_lambda, "aaa", 64};
-  // jthread t2{q_push_lambda, "bbb", 128};
-  // jthread t3{q_push_lambda, "ccc", 4};
-
-  // this_thread::sleep_for(chrono::seconds{4});
-
-  for (auto& t : thread_pool) {
-    t.join();
-    cout << "thread is joined" << endl;
+  auto thread_pool = vector<thread*>{};
+  auto num_base = 64;
+  for (auto i = 0; i < number_of_producers; i++) {
+    auto name = "producer_thread " + to_string(i);
+    auto val = num_base * (i + 1);
+    thread_pool.push_back(new thread{q_push_lambda, name, val});
   }
 
-  // thread_pool[0].join();
-  // thread_pool[1].join();
-  // thread_pool[2].join();
-
-  // t1.join();
-  // t2.join();
-  // t3.join();
+  for (auto&& t : thread_pool) {
+    t->join();
+    delete t;
+    cout << "thread is joined" << endl;
+  }
 
   pop_thread.request_stop();
   pop_thread.join();
 
-  cout << "number of q pop = " << q_pop_count << endl;
-  cout << "end of block" << endl;
-  cout << "----- -----" << endl;
+  return q_pop_count;
 }
+
+}  // namespace networking_tools
+}  // namespace our_project

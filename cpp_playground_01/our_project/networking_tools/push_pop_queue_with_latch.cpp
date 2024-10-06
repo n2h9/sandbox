@@ -34,7 +34,6 @@ int push_pop_queue_with_latch(const int&& number_of_producers) {
       if (q.empty()) {
         continue;
       }
-      cout << "queue not empty" << endl;
       q_mtx.lock();
       auto val = q.front();
       q.pop();

@@ -7,18 +7,11 @@
 #include <thread>
 
 #include "our_project/networking_tools/networking_tools.hpp"
-#include "push_pop_queue_with_async.cpp"
-#include "push_pop_queue_with_jthread.cpp"
 
 int main() {
   {
     using namespace our_project::tools;
     print_hello();
-  }
-
-  {
-    using namespace std;
-    cout << "qwerty" << endl;
   }
 
   {
@@ -36,7 +29,18 @@ int main() {
     cout << "end of block" << endl;
   }
 
-  { push_pop_queue_with_jthread(); }
+  {
+    using namespace std;
+    cout << "----- -----" << endl;
+    cout << "start of block push_pop_queue_with_jthread" << endl;
+
+    auto q_pop_count =
+        our_project::networking_tools::push_pop_queue_with_jthread(4);
+
+    cout << "number of q pop = " << q_pop_count << endl;
+    cout << "end of block" << endl;
+    cout << "----- -----" << endl;
+  }
 
   {
     using namespace std;
@@ -75,25 +79,19 @@ int main() {
     cout << "----- -----" << endl;
   }
 
-  // {
-  //   using namespace std;
-  //   cout << "increment counter example" << endl;
-  // }
-
   {
     using namespace std;
-
     cout << "----- -----" << endl;
-    cout << "start of block" << endl;
+    cout << "start of block push_pop_queue_with_async" << endl;
     int i{28};
     decltype(i) j{34};
 
     cout << j << endl;
 
-    push_pop_queue_with_async();
+    auto q_pop_count =
+        our_project::networking_tools::push_pop_queue_with_async(4);
 
-    // packaged_task
-
+    cout << "number of q pop = " << q_pop_count << endl;
     cout << "end of block" << endl;
     cout << "----- -----" << endl;
   }
