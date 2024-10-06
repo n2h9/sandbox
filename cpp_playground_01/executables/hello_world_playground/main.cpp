@@ -109,5 +109,16 @@ int main() {
     cout << "----- -----" << endl;
   }
 
+  {
+    using namespace std;
+    cout << "----- -----" << endl;
+    cout << "start of block some_semaphore_stuff" << endl;
+
+    our_project::networking_tools::some_semaphore_stuff();
+
+    cout << "end of block" << endl;
+    cout << "----- -----" << endl;
+  }
+
   return 0;
 }
